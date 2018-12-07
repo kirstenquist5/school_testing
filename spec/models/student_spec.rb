@@ -42,6 +42,16 @@ RSpec.describe Student, type: :model do
       should validate_numericality_of(:gpa).
       is_less_than_or_equal_to(4.0)      
     end
+
+    describe "association" do
+      it { should belong_to(:school) }
+    end
+
+    describe "uniqueness" do
+      Student.create(name: 'foo', student_number: 123, gpa: 3.50, school_id: 4)
+      subject { Student.new(name: 'foo', student_number: 123, gpa: 3.50, school_id: 4) }
+      it { should validate_uniqueness_of(:student_number).ignoring_case_sensitivity }
+    end
   
   # write your student model here
   end
